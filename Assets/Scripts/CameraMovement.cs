@@ -1,23 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset;
-    [SerializeField] private float smoothSpeed = 10f;
-    [SerializeField] private float rotationSpeed = 5f;
+    public Transform orientation;
+    public Transform player;
+    public Transform playerObj;
+    public Rigidbody rb;
 
-    private void FixedUpdate()
+    public float rotationSpeed;
+
+    private PlayerMovement controller;
+
+    public void Start()
     {
-        // Calculate the desired position with offset
-        Vector3 desiredPosition = target.position + offset;
+        Cursor.lockState= CursorLockMode.Locked;
+        Cursor.visible = false;
+        controller = player.GetComponent<PlayerMovement>();
+    }
+        
+    private void Update()
+    {
+        if (controller.playerGetUp)
+        {
+            Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
 
-        // Smoothly move the camera towards the desired position
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.fixedDeltaTime);
-        transform.position = smoothedPosition;
+            orientation.forward = viewDir.normalized;
 
-        // Rotate the camera to look at the target
-        Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+            if (inputDir != Vector3.zero)
+            {
+                playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+            }
+
+        }
+
     }
 }
