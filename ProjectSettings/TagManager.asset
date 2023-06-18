@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Pickup
   - Throw
+  - Inactive
+  - Active
   layers:
   - Default
   - TransparentFX
