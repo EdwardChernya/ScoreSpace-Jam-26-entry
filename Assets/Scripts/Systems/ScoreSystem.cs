@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ScoreSystem : MonoBehaviour
 {
-
     private const int LEADERBOARD_ID = 15145;
     private const string LEADERBOARD_KEY = "test_key";
+    public int currentScore;
+
 
     void Start()
     {
+        this.currentScore = 0;
         StartCoroutine(LoginPlayerAsGuest());
     }
 
