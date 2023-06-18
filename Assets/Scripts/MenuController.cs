@@ -12,16 +12,6 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("TestScene");
     }
-    public void OpenGuide()
-    {
-        menuObject.SetActive(false);
-        guideObject.SetActive(true);
-    }
-    public void CloseGuide()
-    {
-        menuObject.SetActive(true);
-        guideObject.SetActive(false);
-    }
     public void QuitGame()
     {
         Application.Quit();
