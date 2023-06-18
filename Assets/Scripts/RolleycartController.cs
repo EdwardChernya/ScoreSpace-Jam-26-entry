@@ -90,11 +90,6 @@ public class RolleycartController : MonoBehaviour
     private void MovePlayerOnCart()
     {
 
-        this.moveSpeed = 40f;
-        this.groundDrag = 3f;
-        this.accelerationRate = 50f;
-        this.decelerationRate = 50f;
-
         // Calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         counterMovement = new Vector3(-rb.velocity.x * counterMovementForce, 0, -rb.velocity.z * counterMovementForce);
