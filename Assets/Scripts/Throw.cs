@@ -8,9 +8,11 @@ using UnityEngine;
 
 public class Throw : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform orientation;
     [SerializeField] public Transform holdPoint;
     [SerializeField] public Material highlightMaterial;
+    [SerializeField] public Animator animator;
+
 
     public float sphereCastRadius;
     public float sphereCastDistance;
@@ -50,8 +52,11 @@ public class Throw : MonoBehaviour
 
             throwable.transform.SetParent(null);
             throwable.GetComponent<Rigidbody>().isKinematic = false;
-            throwable.GetComponent<Rigidbody>().AddForce(player.transform.forward * throwSpeedForward);
-            throwable.GetComponent<Rigidbody>().AddForce(Vector3.up * throwSpeedUp);
+            throwable.GetComponent<BoxCollider>().isTrigger = false;
+            throwable.GetComponent<Rigidbody>().AddForce(orientation.transform.forward * throwSpeedForward);
+            throwable.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp);
+
+            animator.Play("throw2");
         }
     }
 
@@ -62,6 +67,9 @@ public class Throw : MonoBehaviour
             objectInRange.GetComponent<Rigidbody>().isKinematic = true;
             currentHeldCube = objectInRange;
             currentHeldCube.GetComponent<Transform>().position = holdPoint.position;
+
+            currentHeldCube.GetComponent<Rigidbody>().isKinematic = true;
+            currentHeldCube.GetComponent<BoxCollider>().isTrigger = true;
 
             currentHeldCube.transform.rotation = Quaternion.identity;
             currentHeldCube.transform.Rotate(xAngle:-90,0,0);

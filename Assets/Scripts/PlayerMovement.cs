@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundCheckPoint;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform player;
+    [SerializeField] private GameObject penguinHolder;
+    private Animator animator;
+
     public float groundCheckDistance;
     public float countdownGetUp;
     public bool playerGetUp = true;
@@ -48,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        this.animator = penguinHolder.GetComponent<Animator>();
     }
 
     private void Update()
@@ -86,6 +90,9 @@ public class PlayerMovement : MonoBehaviour
         {
             MovePlayer();
         }
+        
+
+
     }
 
     private IEnumerator StartCountdown()
@@ -97,6 +104,9 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Countdown finished!");
 
         this.playerGetUp = true;
+        this.animator.SetBool("isSliding", false);
+
+        this.groundDrag = 10f;
     }
 
     private void CheckPlayerOnGround()
@@ -116,14 +126,21 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(groundCheckPoint.position, Vector3.down * groundCheckDistance, Color.red);
     }
 
+    
+
     private void LaungePlayer()
     {
-        this.rb.constraints = RigidbodyConstraints.None;
+        //this.rb.constraints = RigidbodyConstraints.None;
 
         rb.AddForce(orientation.up * jumpForce, ForceMode.Impulse);
-        rb.AddForce(moveDirection * laungeForce, ForceMode.Impulse);
+        rb.AddForce(moveDirection * laungeForce * 2f, ForceMode.Impulse);
 
         this.playerGetUp = false;
+        this.groundDrag = 0.5f;
+
+        this.animator.SetBool("isSliding", true);
+
+
         StartCoroutine(StartCountdown());
     }
 
@@ -157,6 +174,10 @@ public class PlayerMovement : MonoBehaviour
             // Apply acceleration and clamp to the maximum speed
             velocity += moveDirection.normalized * accelerationRate * Time.fixedDeltaTime;
             velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+
+            Debug.Log("Velocity of player is: ");
+
+            animator.SetFloat("velocity", velocity.magnitude / 115);
 
             // Apply movement force
             rb.AddForce(velocity, ForceMode.Acceleration);

@@ -8,6 +8,7 @@ TagManager:
   - Throw
   - Inactive
   - Active
+  - Trolley
   layers:
   - Default
   - TransparentFX
