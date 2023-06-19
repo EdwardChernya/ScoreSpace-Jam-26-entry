@@ -14,7 +14,7 @@ public class AIColider : MonoBehaviour
     {
         colSphere = gameObject.GetComponent<SphereCollider>();
         colSphere.radius = passiveRadius;
-    }
+    }   
 
     private void OnTriggerEnter(Collider other)
     {
