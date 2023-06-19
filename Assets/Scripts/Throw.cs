@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Throw : MonoBehaviour
@@ -8,11 +11,11 @@ public class Throw : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] public Transform holdPoint;
     [SerializeField] public Material highlightMaterial;
-    [SerializeField] public Material whiteMaterial;
-
 
     public float sphereCastRadius;
     public float sphereCastDistance;
+    public float throwSpeedForward = 500f;
+    public float throwSpeedUp = 75f;
 
     private GameObject currentHeldCube;
     private GameObject objectInRange;
@@ -47,8 +50,8 @@ public class Throw : MonoBehaviour
 
             throwable.transform.SetParent(null);
             throwable.GetComponent<Rigidbody>().isKinematic = false;
-            throwable.GetComponent<Rigidbody>().AddForce(player.transform.forward * 550f);
-            throwable.GetComponent<Rigidbody>().AddForce(Vector3.up * 70f);
+            throwable.GetComponent<Rigidbody>().AddForce(player.transform.forward * throwSpeedForward);
+            throwable.GetComponent<Rigidbody>().AddForce(Vector3.up * throwSpeedUp);
         }
     }
 
@@ -60,8 +63,10 @@ public class Throw : MonoBehaviour
             currentHeldCube = objectInRange;
             currentHeldCube.GetComponent<Transform>().position = holdPoint.position;
 
+            currentHeldCube.transform.rotation = Quaternion.identity;
+            currentHeldCube.transform.Rotate(xAngle:-90,0,0);
+
             currentHeldCube.transform.SetParent(holdPoint.transform);
-            currentHeldCube.gameObject.tag = "Throw";
 
             objectInRange = null;
             objectIsInRange = false;
@@ -73,10 +78,14 @@ public class Throw : MonoBehaviour
     {
         if (other.gameObject.tag == "Pickup")
         {
-            Renderer renderer = other.GetComponent<Renderer>();
-            renderer.sharedMaterial = highlightMaterial;
-            Debug.Log("PICKUP");
+            MeshRenderer objRenderer = other.GetComponent<MeshRenderer>();
+            //other.GameObject().GetComponent<MeshRenderer>().materials[1] = highlightMaterial;
 
+            Material[] materials = objRenderer.materials;
+            Array.Resize(ref materials,materials.Length + 1);
+            materials[1] = highlightMaterial;
+            objRenderer.materials = materials;
+            
             this.objectInRange = other.gameObject;
             this.objectIsInRange = true;
         }
@@ -86,10 +95,12 @@ public class Throw : MonoBehaviour
     {
         if (other.gameObject.tag == "Pickup")
         {
-            Renderer renderer = other.GetComponent<Renderer>();
-            renderer.sharedMaterial = whiteMaterial;
             objectIsInRange = false;
             objectInRange = null;
+            MeshRenderer objRenderer = other.GetComponent<MeshRenderer>();
+            Material[] materials = objRenderer.materials;
+            Array.Resize(ref materials,materials.Length - 1);
+            objRenderer.materials = materials;
         }
     }
 
