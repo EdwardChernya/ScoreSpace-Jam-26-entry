@@ -1,18 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject spawnShelfParent;
     [SerializeField] private GameObject player;
     [SerializeField] private Material highlightMaterial;
-    [SerializeField] private Material normalMaterial;
+    private Material normalMaterial;
+
+    public bool gameJustStarted;
 
     private string SHELF_ACTIVE = "Active";
     private string SHELF_INACTIVE = "Inactive";
 
     private Transform[] ts;
-    private Transform currentActiveShelf;
+    public Transform currentActiveShelf;
 
 
     void Start()
@@ -64,7 +68,17 @@ public class ItemSpawner : MonoBehaviour
 
         Renderer renderer;
 
-        if (currentActiveShelf != null)
+        if (gameJustStarted)
+        {
+            currentActiveShelf = finalShelves[finalShelves.Count - 1];
+            normalMaterial = currentActiveShelf.GetComponent<Renderer>().sharedMaterial;
+            renderer = currentActiveShelf.GetComponent<Renderer>();
+            renderer.sharedMaterial = highlightMaterial;
+            currentActiveShelf.tag = SHELF_ACTIVE;
+
+            gameJustStarted = false;
+        }
+        else
         {
             renderer = currentActiveShelf.GetComponent<Renderer>();
             renderer.sharedMaterial = normalMaterial;
@@ -73,14 +87,10 @@ public class ItemSpawner : MonoBehaviour
             currentActiveShelf = finalShelves[finalShelves.Count - 1];
 
             renderer = currentActiveShelf.GetComponent<Renderer>();
+            normalMaterial = renderer.sharedMaterial;
             renderer.sharedMaterial = highlightMaterial;
             currentActiveShelf.tag = SHELF_ACTIVE;
         }
 
-        currentActiveShelf = finalShelves[finalShelves.Count - 1];
-
-        renderer = currentActiveShelf.GetComponent<Renderer>();
-        renderer.sharedMaterial = highlightMaterial;
-        currentActiveShelf.tag = SHELF_ACTIVE; 
     }
 }

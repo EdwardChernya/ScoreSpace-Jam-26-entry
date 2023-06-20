@@ -105,6 +105,8 @@ public class Throw : MonoBehaviour
         {
             objectIsInRange = false;
             objectInRange = null;
+
+
             MeshRenderer objRenderer = other.GetComponent<MeshRenderer>();
             Material[] materials = objRenderer.materials;
             Array.Resize(ref materials,materials.Length - 1);

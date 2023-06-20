@@ -40,6 +40,7 @@ public class GameStateManager : MonoBehaviour
             Debug.Log("GAME STARTED");
 
             currentGameState = States.GameRunning;
+            itemSpawner.gameJustStarted = true;
             itemSpawner.ChooseNextShelf();
         }
 
