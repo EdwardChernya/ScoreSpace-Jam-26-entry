@@ -21,8 +21,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform player;
     [SerializeField] private GameObject penguinHolder;
+    [SerializeField] private GameObject normalCollider;
+    [SerializeField] private GameObject slideCollider; 
     private Animator animator;
 
+    [Header("Ground")]
     public float groundCheckDistance;
     public float countdownGetUp;
     public bool playerGetUp = true;
@@ -66,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
             if (grounded && playerGetUp)
             {
                 LaungePlayer();
+
             }
         }
 
@@ -90,9 +94,6 @@ public class PlayerMovement : MonoBehaviour
         {
             MovePlayer();
         }
-        
-
-
     }
 
     private IEnumerator StartCountdown()
@@ -105,8 +106,10 @@ public class PlayerMovement : MonoBehaviour
 
         this.playerGetUp = true;
         this.animator.SetBool("isSliding", false);
+        this.groundDrag = 15f;
 
-        this.groundDrag = 10f;
+        normalCollider.SetActive(true);
+        slideCollider.SetActive(false);
     }
 
     private void CheckPlayerOnGround()
@@ -140,6 +143,8 @@ public class PlayerMovement : MonoBehaviour
 
         this.animator.SetBool("isSliding", true);
 
+        normalCollider.SetActive(false);
+        slideCollider.SetActive(true);
 
         StartCoroutine(StartCountdown());
     }
@@ -174,8 +179,6 @@ public class PlayerMovement : MonoBehaviour
             // Apply acceleration and clamp to the maximum speed
             velocity += moveDirection.normalized * accelerationRate * Time.fixedDeltaTime;
             velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-
-            Debug.Log("Velocity of player is: ");
 
             animator.SetFloat("velocity", velocity.magnitude / 115);
 

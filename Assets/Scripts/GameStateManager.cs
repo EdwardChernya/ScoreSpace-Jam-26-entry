@@ -5,6 +5,8 @@ public class GameStateManager : MonoBehaviour
 {
     [SerializeField] GameObject gameManagerObject;
 
+    public bool debugTime;
+
     private States currentGameState = States.GameNeutral;
     private ItemSpawner itemSpawner;
     private ScoreSystem scoreSystem;
@@ -33,7 +35,10 @@ public class GameStateManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Time left: " +  currentTimeLeft);
+        if (debugTime)
+        {
+            Debug.Log("Time left: " + currentTimeLeft);
+        }
 
         if (Input.GetKeyUp(KeyCode.Q) && currentGameState != States.GameRunning)
         {
