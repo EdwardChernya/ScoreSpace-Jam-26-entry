@@ -47,7 +47,7 @@ public class Throw : MonoBehaviour
             this.objectIsInRange = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && objectsInRange.Count > 0 && closestObjectInRange)
+        if (Input.GetKeyDown(KeyCode.E) && objectsInRange.Count > 0 && closestObjectInRange && !currentlyHoldingObject)
         {
             PickUpObject();
         }
@@ -87,11 +87,16 @@ public class Throw : MonoBehaviour
 
     private void ThrowObject()
     {
-        if (currentlyHoldingObject && controller.playerGetUp)
+        if (currentlyHoldingObject && controller.playerGetUp && !hasJustThrown)
         {
             currentHeldObject.transform.SetParent(null);
             currentHeldObject.GetComponent<Rigidbody>().isKinematic = false;
-            currentHeldObject.GetComponent<Collider>().isTrigger = false;
+
+            for (int i = 0; i < currentHeldObject.transform.GetComponentsInChildren<Collider>().Length; i++)
+            {
+                currentHeldObject.transform.GetComponentsInChildren<Collider>()[i].isTrigger = false;
+            }
+
             currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.transform.forward * throwSpeedForward);
             currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp);
             currentHeldObject.tag = "PickupCd";
@@ -108,14 +113,16 @@ public class Throw : MonoBehaviour
 
     private void PickUpObject()
     {
-        if (objectIsInRange && !currentlyHoldingObject)
+        if (objectIsInRange && !currentlyHoldingObject && !hasJustThrown)
         {
             currentlyHoldingObject = true;
 
             closestObjectInRange.GetComponent<Rigidbody>().isKinematic = true;
             currentHeldObject = closestObjectInRange;
-            objectsInRange = new List<GameObject>();
 
+            objectsInRange.Remove(closestObjectInRange);
+
+           
 
             MeshRenderer objRenderer = currentHeldObject.gameObject.GetComponent<MeshRenderer>();
             Material[] objMaterials = objRenderer.materials;
@@ -126,7 +133,12 @@ public class Throw : MonoBehaviour
 
             currentHeldObject.GetComponent<Transform>().position = holdPoint.position;
             currentHeldObject.GetComponent<Rigidbody>().isKinematic = true;
-            currentHeldObject.GetComponent<Collider>().isTrigger = true;
+
+            for (int i = 0; i < currentHeldObject.transform.GetComponentsInChildren<Collider>().Length; i++)
+            {
+                currentHeldObject.transform.GetComponentsInChildren<Collider>()[i].isTrigger = true;
+            }
+
             currentHeldObject.transform.rotation = Quaternion.identity;
             currentHeldObject.transform.Rotate(xAngle: -90, 0, 0);
             currentHeldObject.transform.SetParent(holdPoint.transform);
@@ -151,7 +163,7 @@ public class Throw : MonoBehaviour
                 objRenderer = closestObjectInRange.gameObject.GetComponent<MeshRenderer>();
                 objMaterials = objRenderer.materials;
 
-                if (objMaterials.Length != 1)
+                if (objMaterials.Length > 1)
                 {
                     Array.Resize(ref objMaterials, objMaterials.Length - 1);
                     objRenderer.materials = objMaterials;
@@ -177,15 +189,18 @@ public class Throw : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Pickup" && !currentlyHoldingObject)
+        if (other.gameObject.tag == "Pickup")
         {
-            objectsInRange.Add(other.gameObject);
+            if (other.gameObject != currentHeldObject)
+            {
+                objectsInRange.Add(other.gameObject);
+            }
         }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Pickup" && !currentlyHoldingObject)
+        if (other.gameObject.tag == "Pickup")
         {
             objectsInRange.Remove(other.gameObject);
 
