@@ -122,7 +122,7 @@ public class Throw : MonoBehaviour
 
             objectsInRange.Remove(closestObjectInRange);
 
-           
+
 
             MeshRenderer objRenderer = currentHeldObject.gameObject.GetComponent<MeshRenderer>();
             Material[] objMaterials = objRenderer.materials;
@@ -193,6 +193,12 @@ public class Throw : MonoBehaviour
         {
             if (other.gameObject != currentHeldObject)
             {
+
+                if (objectsInRange.Contains(other.gameObject))
+                {
+                    return;
+                }
+
                 objectsInRange.Add(other.gameObject);
             }
         }
@@ -209,13 +215,12 @@ public class Throw : MonoBehaviour
                 MeshRenderer objRenderer = other.gameObject.GetComponent<MeshRenderer>();
                 Material[] objMaterials = objRenderer.materials;
 
-                if (objMaterials.Length == 1)
+                if (objMaterials.Length > 1)
                 {
-                    return;
+                    Array.Resize(ref objMaterials, objMaterials.Length - 1);
+                    objRenderer.materials = objMaterials;
                 }
 
-                Array.Resize(ref objMaterials, objMaterials.Length - 1);
-                objRenderer.materials = objMaterials;
             }
 
             if (objectsInRange.Count == 0)
