@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject normalCollider;
     [SerializeField] private GameObject slideCollider; 
     private Animator animator;
+    private Throw throwController;
 
     [Header("Ground")]
     public float groundCheckDistance;
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         this.animator = penguinHolder.GetComponent<Animator>();
+        this.throwController = penguinHolder.GetComponent<Throw>();
     }
 
     private void Update()
@@ -66,10 +69,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (grounded && playerGetUp)
+            if (grounded && playerGetUp && (horizontalInput != 0 || verticalInput != 0) && !this.throwController.hasJustThrown)
             {
                 LaungePlayer();
-
             }
         }
 
@@ -90,10 +92,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (grounded && playerGetUp)
+        if (grounded && this.playerGetUp && !this.throwController.hasJustThrown)
         {
             MovePlayer();
         }
+
+        if (!playerGetUp)
+        {
+            Vector3 slideMoveDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+            rb.AddForce(slideMoveDir * 3.5f, ForceMode.Acceleration);
+        }
+
     }
 
     private IEnumerator StartCountdown()
@@ -106,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
 
         this.playerGetUp = true;
         this.animator.SetBool("isSliding", false);
-        this.groundDrag = 15f;
+        this.groundDrag = 17.5f;
 
         normalCollider.SetActive(true);
         slideCollider.SetActive(false);
