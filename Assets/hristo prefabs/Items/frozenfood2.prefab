@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 9063692538668097613}
   - component: {fileID: 2900346972814223579}
   - component: {fileID: 8228927622535050971}
-  - component: {fileID: 9089946270387961221}
+  - component: {fileID: 3035760744826478220}
   m_Layer: 0
   m_Name: frozenfood2
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 64
@@ -101,8 +101,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &9089946270387961221
-MeshCollider:
+--- !u!65 &3035760744826478220
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,7 +111,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2577809523575850323, guid: facd67a6456fb0449b4ada96197359b5, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.011932173, y: 0.01384772, z: 0.010483124}
+  m_Center: {x: -0.00010879314, y: 0.0018477233, z: 0.00001971051}

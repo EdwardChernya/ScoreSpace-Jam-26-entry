@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3033385980304460326}
   - component: {fileID: 6583158921663291581}
   - component: {fileID: 7085203293027973841}
-  - component: {fileID: 4914230243064688223}
+  - component: {fileID: 7178973339306860019}
   m_Layer: 0
   m_Name: greenApple
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 64
@@ -101,8 +101,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &4914230243064688223
-MeshCollider:
+--- !u!135 &7178973339306860019
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,7 +111,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6017789834850707161, guid: facd67a6456fb0449b4ada96197359b5, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.04547623
+  m_Center: {x: -0.003274474, y: 0.00077340746, z: -0.0003743395}

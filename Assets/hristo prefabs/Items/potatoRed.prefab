@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 781212002307810854}
   - component: {fileID: 8053362030983075376}
   - component: {fileID: 3303081940558606577}
-  - component: {fileID: 7210366874599008476}
   - component: {fileID: 7990864575836031018}
+  - component: {fileID: 7169472957499482827}
   m_Layer: 0
   m_Name: potatoRed
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 64
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7210366874599008476
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2539483271009208545}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6734236012490125393, guid: facd67a6456fb0449b4ada96197359b5, type: 3}
 --- !u!54 &7990864575836031018
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -115,3 +101,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &7169472957499482827
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2539483271009208545}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.053689767
+  m_Height: 0.22024706
+  m_Direction: 0
+  m_Center: {x: 0.00070273335, y: 0.0022495815, z: -0.0018222799}

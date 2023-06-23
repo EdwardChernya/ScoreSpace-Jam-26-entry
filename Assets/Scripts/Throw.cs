@@ -32,7 +32,7 @@ public class Throw : MonoBehaviour
 
     public List<GameObject> objectsInRange = new List<GameObject>();
     public GameObject closestObjectInRange;
-    
+
 
 
     void Start()
@@ -47,7 +47,7 @@ public class Throw : MonoBehaviour
             this.objectIsInRange = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && objectsInRange.Count > 0 && closestObjectInRange)
         {
             PickUpObject();
         }
@@ -89,25 +89,20 @@ public class Throw : MonoBehaviour
     {
         if (currentlyHoldingObject && controller.playerGetUp)
         {
-            GameObject throwable = new GameObject();
-            throwable = currentHeldObject;
+            currentHeldObject.transform.SetParent(null);
+            currentHeldObject.GetComponent<Rigidbody>().isKinematic = false;
+            currentHeldObject.GetComponent<Collider>().isTrigger = false;
+            currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.transform.forward * throwSpeedForward);
+            currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp);
+            currentHeldObject.tag = "PickupCd";
 
-            currentHeldObject = null;
-
-            throwable.transform.SetParent(null);
-            throwable.GetComponent<Rigidbody>().isKinematic = false;
-            throwable.GetComponent<Collider>().isTrigger = false;
-            throwable.GetComponent<Rigidbody>().AddForce(orientation.transform.forward * throwSpeedForward);
-            throwable.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp);
-            throwable.tag = "PickupCd";
-
-            StartCoroutine(CooldownPickUpSameObject(throwable));
+            StartCoroutine(CooldownPickUpSameObject(currentHeldObject));
             animator.Play("throw2");
             StartCoroutine(CooldownAfterThrow());
 
 
             currentlyHoldingObject = false;
-
+            currentHeldObject = null;
         }
     }
 
@@ -133,7 +128,7 @@ public class Throw : MonoBehaviour
             currentHeldObject.GetComponent<Rigidbody>().isKinematic = true;
             currentHeldObject.GetComponent<Collider>().isTrigger = true;
             currentHeldObject.transform.rotation = Quaternion.identity;
-            currentHeldObject.transform.Rotate(xAngle:-90,0,0);
+            currentHeldObject.transform.Rotate(xAngle: -90, 0, 0);
             currentHeldObject.transform.SetParent(holdPoint.transform);
         }
     }
@@ -177,7 +172,7 @@ public class Throw : MonoBehaviour
         objMaterials[1] = highlightMaterial;
         objRenderer.materials = objMaterials;
     }
-    
+
 
 
     private void OnTriggerEnter(Collider other)
@@ -214,7 +209,7 @@ public class Throw : MonoBehaviour
             }
 
 
-            
+
         }
     }
 

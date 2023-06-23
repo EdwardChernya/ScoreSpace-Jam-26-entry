@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3016127175531348838}
   - component: {fileID: 7640600782589792690}
   - component: {fileID: 5763715303864385944}
-  - component: {fileID: 5499932205649318388}
+  - component: {fileID: 8636548577454156686}
   m_Layer: 0
   m_Name: tomato
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 64
@@ -101,8 +101,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &5499932205649318388
-MeshCollider:
+--- !u!136 &8636548577454156686
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,7 +111,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5892359386350019813, guid: facd67a6456fb0449b4ada96197359b5, type: 3}
+  m_Radius: 0.059986886
+  m_Height: 0.11997378
+  m_Direction: 1
+  m_Center: {x: -0.0014968108, y: 0.0008590884, z: -0.0004829809}
