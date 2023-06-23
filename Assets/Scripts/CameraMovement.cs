@@ -18,6 +18,8 @@ public class CameraMovement : MonoBehaviour
 
 
     public float rotationSpeed;
+    public float rotationSpeedWhileSliding;
+
 
     private PlayerMovement controller;
 
@@ -30,40 +32,39 @@ public class CameraMovement : MonoBehaviour
         
     private void Update()
     {
-        if (onTrolley)
-        {
-            Vector3 viewDir = trolley.position - new Vector3(transform.position.x, trolley.position.y, transform.position.z);
 
-            trolleyOrientation.forward = viewDir.normalized;
+        if (controller.playerGetUp)
+        {
+            Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
+
+            orientation.forward = viewDir.normalized;
 
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
-            Vector3 inputDir = trolleyOrientation.forward * verticalInput + trolleyOrientation.right * horizontalInput;
+            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
             if (inputDir != Vector3.zero)
             {
-                trolleyObject.forward = Vector3.Slerp(trolleyObject.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+                playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
             }
+
         }
-        else
+        else if (!controller.playerGetUp)
         {
-            if (controller.playerGetUp)
+            Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
+
+            orientation.forward = viewDir.normalized;
+
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+            if (inputDir != Vector3.zero)
             {
-                Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
-
-                orientation.forward = viewDir.normalized;
-
-                float horizontalInput = Input.GetAxis("Horizontal");
-                float verticalInput = Input.GetAxis("Vertical");
-                Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-                if (inputDir != Vector3.zero)
-                {
-                    playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
-                }
-
+                playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeedWhileSliding);
             }
         }
+        
 
 
     }

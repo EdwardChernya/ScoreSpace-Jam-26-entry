@@ -9,6 +9,7 @@ TagManager:
   - Inactive
   - Active
   - Trolley
+  - PickupCd
   layers:
   - Default
   - TransparentFX
