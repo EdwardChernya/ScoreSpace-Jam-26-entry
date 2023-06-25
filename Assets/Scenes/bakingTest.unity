@@ -946,7 +946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625140943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.357, y: 0.761, z: -6.33}
+  m_LocalPosition: {x: -11.299, y: 0.761, z: -6.33}
   m_LocalScale: {x: 0.045626525, y: 0.9199274, z: 1.5366467}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1753,8 +1753,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 2052211257}
+  aimLookAt: {fileID: 0}
   player: {fileID: 328282298}
   playerObj: {fileID: 1796517762}
+  penguinBodyObject: {fileID: 0}
   rb: {fileID: 328282297}
   onTrolley: 0
   trolley: {fileID: 0}
@@ -1762,6 +1764,7 @@ MonoBehaviour:
   trolleyObject: {fileID: 0}
   rotationSpeed: 35
   rotationSpeedWhileSliding: 0
+  aimViewDir: {x: 0, y: 0, z: 0}
 --- !u!114 &1163870254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2184,8 +2187,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1387313058}
-  m_LocalRotation: {x: 0.098091215, y: 0.000000017650397, z: -0.0000000017397388,
-    w: 0.99517745}
+  m_LocalRotation: {x: 0.098091215, y: -0.0000000176504, z: 0.0000000017397391, w: 0.99517745}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3339,6 +3341,8 @@ MonoBehaviour:
   highlightMaterial: {fileID: 2100000, guid: 7a28af9b83f914dc5b95822b1d23728b, type: 2}
   animator: {fileID: 1796517766}
   player: {fileID: 328282296}
+  regularCamera: {fileID: 0}
+  aimCamera: {fileID: 0}
   hasJustThrown: 0
   sphereCastRadius: 2
   sphereCastDistance: 3
@@ -3346,6 +3350,7 @@ MonoBehaviour:
   throwSpeedUp: 75
   objectsInRange: []
   closestObjectInRange: {fileID: 0}
+  playerCurrentlyAiming: 0
 --- !u!65 &1796517764
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3582,8 +3587,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803526149}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.787, y: 0.759, z: -6.33}
-  m_LocalScale: {x: 0.7018494, y: 0.9199274, z: 1.5366467}
+  m_LocalPosition: {x: -11.753, y: 0.682, z: -6.33}
+  m_LocalScale: {x: 0.8864866, y: 0.9199274, z: 1.5366467}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

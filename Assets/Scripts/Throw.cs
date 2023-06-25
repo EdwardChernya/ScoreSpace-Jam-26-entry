@@ -102,6 +102,8 @@ public class Throw : MonoBehaviour
 
                 aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis = regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis;
                 aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis = regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis;
+                aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = 2f;
+                aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis.m_MaxSpeed = 0.02f;
 
 
                 controller.moveSpeed = 30f;
@@ -142,6 +144,8 @@ public class Throw : MonoBehaviour
 
                 regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis = aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis;
                 regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis = aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis;
+                regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = 4f;
+                regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis.m_MaxSpeed = 0.04f;
 
                 regularCamera.SetActive(true);
 
