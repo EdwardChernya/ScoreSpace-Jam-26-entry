@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private GameObject penguinHolder;
     [SerializeField] private GameObject normalCollider;
-    [SerializeField] private GameObject slideCollider; 
+    [SerializeField] private GameObject slideCollider;
     private Animator animator;
     private Throw throwController;
 
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(groundCheckPoint.position, Vector3.down * groundCheckDistance, Color.red);
     }
 
-    
+
 
     private void LaungePlayer()
     {

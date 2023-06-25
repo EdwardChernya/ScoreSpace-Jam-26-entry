@@ -102,7 +102,7 @@ public class Throw : MonoBehaviour
 
                 aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis = regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis;
                 aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis = regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis;
-                    
+
 
                 controller.moveSpeed = 30f;
                 controller.groundDrag = 22.5f;
@@ -209,7 +209,7 @@ public class Throw : MonoBehaviour
                 return;
             }
 
-            for (int i = 0; i < objectsInRange.Count;i++)
+            for (int i = 0; i < objectsInRange.Count; i++)
             {
                 // lets say we have the objects [A, B, C, D]
                 // B is set as the current closest object
