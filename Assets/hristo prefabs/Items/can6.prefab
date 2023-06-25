@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8999428666057380732}
   - component: {fileID: 5775617571235797468}
   - component: {fileID: 4836214024230690468}
+  - component: {fileID: 239108170}
+  - component: {fileID: 2124950796}
   m_Layer: 0
   m_Name: can6
   m_TagString: Pickup
@@ -30,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1184499017654360808}
   m_LocalRotation: {x: -0.49726993, y: -0.5027153, z: -0.5027153, w: 0.49726993}
   m_LocalPosition: {x: 1.6183617, y: 0.10433822, z: -0.64276046}
-  m_LocalScale: {x: 228.13538, y: 228.13538, z: 207.49825}
+  m_LocalScale: {x: 228.13547, y: 228.13548, z: 207.49829}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -129,3 +131,29 @@ CapsuleCollider:
   m_Height: 0.00076432567
   m_Direction: 2
   m_Center: {x: 0, y: 0.0000028104998, z: 0.0000034413656}
+--- !u!114 &239108170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184499017654360808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d076816062cbe24f8de8f8a6f766df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreCollisionWithPlayer: 0
+--- !u!114 &2124950796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184499017654360808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d076816062cbe24f8de8f8a6f766df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreCollisionWithPlayer: 0
