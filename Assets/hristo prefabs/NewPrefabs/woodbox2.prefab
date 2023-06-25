@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 64
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8354310940021781315
 Transform:
@@ -39,7 +39,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2636281967899168971}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a290e3015b4be884f8b0455b9df068e3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -60,7 +60,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 64
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3826816115536568427
 Transform:
@@ -84,7 +84,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6225111983354988985}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a290e3015b4be884f8b0455b9df068e3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -107,7 +107,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 64
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5653901699378862895
 Transform:
@@ -185,7 +185,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6230937677154921680}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a290e3015b4be884f8b0455b9df068e3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -206,7 +206,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 64
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5721268352863147223
 Transform:
@@ -230,7 +230,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6752183860721906428}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a290e3015b4be884f8b0455b9df068e3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -251,7 +251,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 64
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3215162770672694438
 Transform:
@@ -275,7 +275,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7241373441279788979}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a290e3015b4be884f8b0455b9df068e3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

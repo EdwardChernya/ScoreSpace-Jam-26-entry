@@ -11,12 +11,15 @@ GameObject:
   - component: {fileID: 4608288931007672077}
   - component: {fileID: 1911544733953248387}
   - component: {fileID: 358276004538648792}
+  - component: {fileID: 5333658393576213671}
+  - component: {fileID: 97600197086491487}
+  - component: {fileID: 4180555148530192839}
   m_Layer: 0
   m_Name: Chips5
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 64
   m_IsActive: 1
 --- !u!4 &4608288931007672077
 Transform:
@@ -25,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1833523675066397920}
-  m_LocalRotation: {x: -0.68542993, y: 0.017897744, z: 0.041497994, w: 0.7267348}
+  m_LocalRotation: {x: -0.6854321, y: 0.017899454, z: 0.041497543, w: 0.72673273}
   m_LocalPosition: {x: 2.0237496, y: 0.022235777, z: -1.2773247}
   m_LocalScale: {x: 10.535656, y: 0.56934595, z: 10.53566}
   m_ConstrainProportionsScale: 0
@@ -83,3 +86,46 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &5333658393576213671
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833523675066397920}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &97600197086491487
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833523675066397920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.021916065, y: 0.0180104, z: 0.029395461}
+  m_Center: {x: -0.000041112486, y: 0.00011418528, z: 0.014697745}
+--- !u!136 &4180555148530192839
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833523675066397920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.004230725
+  m_Height: 0.021625105
+  m_Direction: 0
+  m_Center: {x: 0.00013414877, y: 0.005912624, z: 0.015202707}
