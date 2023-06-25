@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour
@@ -64,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Ground check
         CheckPlayerOnGround();
-
         MyInput();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -92,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+
         if (grounded && this.playerGetUp && !this.throwController.hasJustThrown)
         {
             MovePlayer();
@@ -100,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         if (!playerGetUp)
         {
             Vector3 slideMoveDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            rb.AddForce(slideMoveDir * 3.5f, ForceMode.Acceleration);
+            rb.AddForce(slideMoveDir * 5f, ForceMode.Acceleration);
         }
 
     }
@@ -215,4 +217,4 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(velocity, ForceMode.Acceleration);
         }
     }
-} 
+}
