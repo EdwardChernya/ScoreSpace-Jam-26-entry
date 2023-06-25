@@ -60,7 +60,7 @@ public class Throw : MonoBehaviour
 
         if (!currentlyHoldingObject)
         {
-            if (objectsInRange.Count != 0)
+            if (objectsInRange.Count > 0)
             {
                 if (currentObjectCount != objectsInRange.Count)
                 {
@@ -70,26 +70,14 @@ public class Throw : MonoBehaviour
             }
         }
 
+        if (objectsInRange.Count == 0 && currentObjectCount != 0)
+        {
+            currentObjectCount = 0;
+        }
+
         ChangeHightlight();
+        Debug.Log(currentObjectCount);
 
-    }
-
-    private IEnumerator CooldownPickUpSameObject(GameObject gameObject)
-    {
-
-        if (gameObject)
-        {
-            gameObject.GetComponent<IgnoreCollisionWithPlayer>().IgnorePlayerCollision();
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        if (gameObject)
-        {
-            gameObject.tag = "Pickup";
-            gameObject.GetComponent<IgnoreCollisionWithPlayer>().StopIgnoringCollision();
-
-        }
     }
 
     private IEnumerator CooldownAfterThrow()
@@ -137,15 +125,16 @@ public class Throw : MonoBehaviour
 
                 currentHeldObject.tag = "PickupCd";
 
-                StartCoroutine(CooldownPickUpSameObject(currentHeldObject));
+                currentHeldObject.GetComponent<IgnoreCollisionWithPlayer>().ignoreCollisionWithPlayer = true;
+                currentHeldObject = null;
+
                 animator.Play("throw2");
                 StartCoroutine(CooldownAfterThrow());
 
                 // release here
                 playerCurrentlyAiming = false;
                 currentlyHoldingObject = false;
-                currentHeldObject = null;
-
+                
                 controller.moveSpeed = 60f;
                 controller.groundDrag = 17.5f;
 
@@ -195,6 +184,8 @@ public class Throw : MonoBehaviour
             currentHeldObject.transform.rotation = Quaternion.identity;
             currentHeldObject.transform.Rotate(xAngle: -90, 0, 0);
             currentHeldObject.transform.SetParent(holdPoint.transform);
+
+            currentObjectCount--;
         }
     }
 
@@ -211,9 +202,10 @@ public class Throw : MonoBehaviour
         if (objectsInRange.Count > 0 && Input.GetKeyDown(KeyCode.X))
         {
             // Handle the case where the object is already the closest in range
-            if (objectsInRange.Count == 1)
+            if (objectsInRange.Count == 1 && closestObjectInRange == null)
             {
                 Debug.Log("last object is the closest in range");
+                HighlightClosestInRange();
                 return;
             }
 
@@ -287,6 +279,7 @@ public class Throw : MonoBehaviour
             }
         }
 
+        Debug.Log("huh");
 
         closestObjectInRange = objectsInRange[0];
 
@@ -303,6 +296,9 @@ public class Throw : MonoBehaviour
     {
         if (other.gameObject.tag == "Pickup")
         {
+            Debug.Log(other.gameObject + " is other");
+            Debug.Log(closestObjectInRange + " is closest object in range");
+
             if (other.gameObject != currentHeldObject)
             {
 
