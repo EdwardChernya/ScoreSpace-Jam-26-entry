@@ -60,5 +60,5 @@ Material:
     - _step2: 0.86
     m_Colors:
     - _Deep: {r: 0, g: 0.638464, b: 1, a: 0}
-    - _Shallow: {r: 0, g: 0.7461715, b: 1, a: 1}
+    - _Shallow: {r: 0, g: 0.6348052, b: 1, a: 1}
   m_BuildTextureStacks: []
