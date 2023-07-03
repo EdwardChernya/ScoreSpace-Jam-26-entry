@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-725901691832632559
+--- !u!114 &-4201271322508219158
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_waterTest
-  m_Shader: {fileID: -6465566751694194690, guid: 761fb21beae5f194982352f5dd27d524,
+  m_Name: waterFishTank
+  m_Shader: {fileID: -6465566751694194690, guid: 04336cd1aee54d64db29f32c1cb9202b,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -48,17 +48,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fresnel_Power: 0.56
+    - _Ambient: 1
+    - _Amount: 0.25
+    - _Frequency: 12
+    - _Metalic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RefractionScale: 0
-    - _RefractionSpeed: 0
-    - _RefractionStrength: 0
-    - _Transparency: 1
-    - _WaterDepth: 0.99
-    - _step1: 0.29
-    - _step2: 0.86
+    - _Smoothness: 0
+    - _Transparency: 0.65
+    - _WaterDepth: 2.15
+    - _WaveON: 1
+    - _WaveStrength: 0.01
+    - _Wavespeed: 2
+    - _step1: -0.65
+    - _step2: 0.71
     m_Colors:
-    - _Deep: {r: 0, g: 0.638464, b: 1, a: 0}
-    - _Shallow: {r: 0, g: 0.6348052, b: 1, a: 1}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _FogColor: {r: 0, g: 0.8072283, b: 2.6390157, a: 1}
+    - _FogColor2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
