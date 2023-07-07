@@ -42,8 +42,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
 
     public float laungeForce;
     public bool isJumping;
@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
 
     Rigidbody rb;
+
+    public bool playerPlayingMinigame = false;
 
     private void Start()
     {
@@ -67,12 +69,18 @@ public class PlayerMovement : MonoBehaviour
         CheckPlayerOnGround();
         MyInput();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!playerPlayingMinigame)
         {
-            if (grounded && playerGetUp && (horizontalInput != 0 || verticalInput != 0) && !this.throwController.hasJustThrown)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                LaungePlayer();
+                if (grounded && playerGetUp && (horizontalInput != 0 || verticalInput != 0) && !this.throwController.hasJustThrown)
+                {
+                    LaungePlayer();
+                }
             }
+        } else
+        {
+            animator.SetFloat("velocity", 0f);
         }
 
         if (playerGetUp)
@@ -92,19 +100,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-
-        if (grounded && this.playerGetUp && !this.throwController.hasJustThrown)
+        if (!playerPlayingMinigame) 
         {
-            MovePlayer();
-        }
+            if (grounded && this.playerGetUp && !this.throwController.hasJustThrown)
+            {
+                MovePlayer();
+            }
 
-        if (!playerGetUp)
-        {
-            Vector3 slideMoveDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            rb.AddForce(slideMoveDir * 5f, ForceMode.Acceleration);
+            if (!playerGetUp)
+            {
+                Vector3 slideMoveDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+                rb.AddForce(slideMoveDir * 5f, ForceMode.Acceleration);
+            }
         }
-
     }
 
     private IEnumerator StartCountdown()
@@ -153,6 +161,8 @@ public class PlayerMovement : MonoBehaviour
         this.groundDrag = 0.5f;
 
         this.animator.SetBool("isSliding", true);
+
+        this.orientation.rotation.SetLookRotation(moveDirection);
 
         normalCollider.SetActive(false);
         slideCollider.SetActive(true);
