@@ -34,7 +34,10 @@ public class Throw : MonoBehaviour
 
     private bool ignoreCollisionWithPlayer;
 
+    private bool cameraHasToSwitch = false;
     private int currentObjectCount = 0;
+    private bool isCurrentlyThrowing;
+    public float cooldownThrowObjectAfterAnimation;
 
     void Start()
     {
@@ -48,24 +51,28 @@ public class Throw : MonoBehaviour
             this.objectIsInRange = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && objectsInRange.Count > 0 && closestObjectInRange && !currentlyHoldingObject)
+        if (!controller.playerPlayingMinigame)
         {
-            PickUpObject();
-        }
-
-        if (currentlyHoldingObject && controller.playerGetUp)
-        {
-            ThrowObject();
-        }
-
-        if (!currentlyHoldingObject)
-        {
-            if (objectsInRange.Count > 0)
+            if (Input.GetKeyDown(KeyCode.E) && objectsInRange.Count > 0 && closestObjectInRange && !currentlyHoldingObject)
             {
-                if (currentObjectCount != objectsInRange.Count)
+                PickUpObject();
+            }
+
+            if (currentlyHoldingObject && controller.playerGetUp)
+            {
+                ThrowObject();
+                DropObject();
+            }
+
+            if (!currentlyHoldingObject)
+            {
+                if (objectsInRange.Count > 0)
                 {
-                    HighlightClosestInRange();
-                    currentObjectCount = objectsInRange.Count;
+                    if (currentObjectCount != objectsInRange.Count)
+                    {
+                        HighlightClosestInRange();
+                        currentObjectCount = objectsInRange.Count;
+                    }
                 }
             }
         }
@@ -76,7 +83,6 @@ public class Throw : MonoBehaviour
         }
 
         ChangeHightlight();
-        Debug.Log(currentObjectCount);
 
     }
 
@@ -87,72 +93,108 @@ public class Throw : MonoBehaviour
         hasJustThrown = false;
     }
 
+    private IEnumerator CameraHasToSwitchCd()
+    {
+        yield return new WaitForSeconds(0.25f);
+        
+        if (Input.GetMouseButton(0))
+        {
+            cameraHasToSwitch = true;
+        }
+
+    }
+    private IEnumerator ThrowObjectAfterAnimationCd()
+    {
+        yield return new WaitForSeconds(cooldownThrowObjectAfterAnimation);
+
+        if (currentHeldObject != null)
+        {
+            currentHeldObject.transform.SetParent(null);
+            currentHeldObject.GetComponent<Rigidbody>().isKinematic = false;
+
+            for (int i = 0; i < currentHeldObject.transform.GetComponentsInChildren<Collider>().Length; i++)
+            {
+                currentHeldObject.transform.GetComponentsInChildren<Collider>()[i].isTrigger = false;
+            }
+
+            currentHeldObject.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwSpeedForward, ForceMode.Impulse);
+            currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp, ForceMode.Impulse);
+
+            Vector3 randomTorque = new Vector3(UnityEngine.Random.Range(0, 30f), UnityEngine.Random.Range(0, 30f), UnityEngine.Random.Range(0, 30f));
+            currentHeldObject.GetComponent<Rigidbody>().AddTorque(randomTorque);
+
+            currentHeldObject.tag = "PickupCd";
+
+            currentHeldObject.GetComponent<IgnoreCollisionWithPlayer>().ignoreCollisionWithPlayer = true;
+            currentHeldObject = null;
+
+
+
+            StartCoroutine(CooldownAfterThrow());
+
+            // release here
+
+            currentlyHoldingObject = false;
+            isCurrentlyThrowing = false;
+
+            controller.moveSpeed = 60f;
+            controller.groundDrag = 17.5f;
+
+
+
+            if (aimCamera.activeSelf)
+            {
+                aimCamera.SetActive(false);
+                regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis = aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis;
+                regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis = aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis;
+                regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = 4f;
+                regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis.m_MaxSpeed = 0.04f;
+                regularCamera.SetActive(true);
+            }
+
+            if (objectsInRange.Count > 0)
+            {
+                HighlightClosestInRange();
+            }
+
+            playerCurrentlyAiming = false;
+
+        }
+
+    }
+
 
     private void ThrowObject()
     {
         if (controller.playerGetUp && !hasJustThrown)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (playerCurrentlyAiming && cameraHasToSwitch)
             {
-                playerCurrentlyAiming = true;
-
                 regularCamera.SetActive(false);
                 aimCamera.SetActive(true);
-
 
                 aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis = regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis;
                 aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis = regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis;
                 aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = 2f;
                 aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis.m_MaxSpeed = 0.02f;
 
-
                 controller.moveSpeed = 30f;
                 controller.groundDrag = 22.5f;
+
+                cameraHasToSwitch = false;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                playerCurrentlyAiming = true;
+                StartCoroutine(CameraHasToSwitchCd());
             }
             if (Input.GetMouseButtonUp(0) && playerCurrentlyAiming)
             {
-                currentHeldObject.transform.SetParent(null);
-                currentHeldObject.GetComponent<Rigidbody>().isKinematic = false;
-
-                for (int i = 0; i < currentHeldObject.transform.GetComponentsInChildren<Collider>().Length; i++)
-                {
-                    currentHeldObject.transform.GetComponentsInChildren<Collider>()[i].isTrigger = false;
-                }
-
-                currentHeldObject.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwSpeedForward, ForceMode.Impulse);
-                currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp, ForceMode.Impulse);
-
-                Vector3 randomTorque = new Vector3(UnityEngine.Random.Range(0, 30f), UnityEngine.Random.Range(0, 30f), UnityEngine.Random.Range(0, 30f));
-                currentHeldObject.GetComponent<Rigidbody>().AddTorque(randomTorque);
-
-                currentHeldObject.tag = "PickupCd";
-
-                currentHeldObject.GetComponent<IgnoreCollisionWithPlayer>().ignoreCollisionWithPlayer = true;
-                currentHeldObject = null;
-
+                isCurrentlyThrowing = true;
                 animator.Play("throw2");
-                StartCoroutine(CooldownAfterThrow());
-
-                // release here
-                playerCurrentlyAiming = false;
-                currentlyHoldingObject = false;
                 
-                controller.moveSpeed = 60f;
-                controller.groundDrag = 17.5f;
+                StartCoroutine(ThrowObjectAfterAnimationCd());
 
-                aimCamera.SetActive(false);
-
-                regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis = aimCamera.GetComponent<CinemachineFreeLook>().m_XAxis;
-                regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis = aimCamera.GetComponent<CinemachineFreeLook>().m_YAxis;
-                regularCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = 4f;
-                regularCamera.GetComponent<CinemachineFreeLook>().m_YAxis.m_MaxSpeed = 0.04f;
-
-                regularCamera.SetActive(true);
-
-                if (objectsInRange.Count > 0)
-                {
-                    HighlightClosestInRange();
-                }
             }
 
 
@@ -161,7 +203,7 @@ public class Throw : MonoBehaviour
 
     private void PickUpObject()
     {
-        if (objectIsInRange && !currentlyHoldingObject && !hasJustThrown)
+        if (objectIsInRange && !currentlyHoldingObject && !hasJustThrown && !playerCurrentlyAiming && !isCurrentlyThrowing)
         {
             currentlyHoldingObject = true;
 
@@ -195,7 +237,27 @@ public class Throw : MonoBehaviour
 
     private void DropObject()
     {
+        if (currentlyHoldingObject && !playerCurrentlyAiming && Input.GetKeyDown(KeyCode.Q) && !hasJustThrown && !isCurrentlyThrowing)
+        {
+            currentlyHoldingObject = false;
+            for (int i = 0; i < currentHeldObject.transform.GetComponentsInChildren<Collider>().Length; i++)
+            {
+                currentHeldObject.transform.GetComponentsInChildren<Collider>()[i].isTrigger = false;
+            }
 
+            Vector3 randomTorque = new Vector3(UnityEngine.Random.Range(0, 30f), UnityEngine.Random.Range(0, 30f), UnityEngine.Random.Range(0, 30f));
+            currentHeldObject.GetComponent<Rigidbody>().AddTorque(randomTorque);
+
+            currentHeldObject.transform.SetParent(null);
+            currentHeldObject.GetComponent<Rigidbody>().isKinematic = false;
+            currentHeldObject.GetComponent<Rigidbody>().AddForce(-orientation.forward * throwSpeedForward * 0.2f, ForceMode.Impulse);
+            currentHeldObject.GetComponent<Rigidbody>().AddForce(orientation.up * throwSpeedUp * 0.5f, ForceMode.Impulse);
+
+            currentHeldObject.GetComponent<IgnoreCollisionWithPlayer>().ignoreCollisionWithPlayer = true;
+            currentHeldObject.tag = "PickupCd";
+            currentHeldObject = null;
+
+        }
     }
 
     private void ChangeHightlight()
@@ -203,7 +265,7 @@ public class Throw : MonoBehaviour
         MeshRenderer objRenderer;
         Material[] objMaterials;
 
-        if (objectsInRange.Count > 0 && Input.GetKeyDown(KeyCode.X))
+        if (objectsInRange.Count > 0 && Input.GetKeyDown(KeyCode.X) && !playerCurrentlyAiming && !currentlyHoldingObject)
         {
             // Handle the case where the object is already the closest in range
             if (objectsInRange.Count == 1 && closestObjectInRange == null)
@@ -245,8 +307,6 @@ public class Throw : MonoBehaviour
                     Array.Resize(ref objMaterials, objMaterials.Length + 1);
                     objMaterials[1] = highlightMaterial;
                     objRenderer.materials = objMaterials;
-
-
                 }
             }
 
@@ -264,9 +324,9 @@ public class Throw : MonoBehaviour
             Vector3.Distance(playerPosition, a.transform.position).CompareTo(Vector3.Distance(playerPosition, b.transform.position))
         );
 
-        if (closestObjectInRange != null)
+        if (closestObjectInRange != null) // if there is no closest object
         {
-            if (closestObjectInRange != objectsInRange[0])
+            if (closestObjectInRange != objectsInRange[0]) // if the previous closest object != the new closest object
             {
                 objRenderer = closestObjectInRange.gameObject.GetComponent<MeshRenderer>();
                 objMaterials = objRenderer.materials;
@@ -275,6 +335,7 @@ public class Throw : MonoBehaviour
                 {
                     Array.Resize(ref objMaterials, objMaterials.Length - 1);
                     objRenderer.materials = objMaterials;
+                    return;
                 }
             }
             else if (closestObjectInRange == objectsInRange[0])
