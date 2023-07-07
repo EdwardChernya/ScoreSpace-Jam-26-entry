@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2059007167364500387}
   - component: {fileID: 2655468733443857956}
   - component: {fileID: 4320165874996402308}
+  - component: {fileID: 5519322711029327234}
   m_Layer: 0
   m_Name: coyote
   m_TagString: Untagged
@@ -84,6 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5519322711029327234
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720496939185299167}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9219084707628556697, guid: 1a3fc5633a943f349a3956d1671c31b3, type: 3}
 --- !u!1 &5519322711537915942
 GameObject:
   m_ObjectHideFlags: 0
