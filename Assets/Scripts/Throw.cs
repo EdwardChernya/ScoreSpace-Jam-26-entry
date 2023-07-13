@@ -6,26 +6,29 @@ using UnityEngine;
 
 public class Throw : MonoBehaviour
 {
-    [SerializeField] private Transform orientation;
-    [SerializeField] public Transform holdPoint;
-    [SerializeField] public Material highlightMaterial;
-    [SerializeField] public Animator animator;
-    [SerializeField] public GameObject player;
-    [SerializeField] public GameObject regularCamera;
-    [SerializeField] public GameObject aimCamera;
+    private Transform orientation;
+    private Transform holdPoint;
+    public Material highlightMaterial;
+    private Animator animator;
+    private GameObject player;
+    private GameObject regularCamera;
+    private GameObject aimCamera;
+    private GameObject penguinObject;
+
+    private Transform cameras;
 
     private PlayerMovement controller;
 
     public bool hasJustThrown;
 
-    public float sphereCastRadius;
-    public float sphereCastDistance;
-    public float throwSpeedForward = 500f;
-    public float throwSpeedUp = 75f;
+    private float sphereCastRadius = 2f;
+    private float sphereCastDistance = 3f;
+    private float throwSpeedForward = 15f;
+    private float throwSpeedUp = 1.5f;
 
-    private GameObject currentHeldObject;
+    public GameObject currentHeldObject;
     private bool objectIsInRange = false;
-    private bool currentlyHoldingObject = false;
+    public bool currentlyHoldingObject = false;
 
 
     public List<GameObject> objectsInRange = new List<GameObject>();
@@ -37,11 +40,28 @@ public class Throw : MonoBehaviour
     private bool cameraHasToSwitch = false;
     private int currentObjectCount = 0;
     private bool isCurrentlyThrowing;
-    public float cooldownThrowObjectAfterAnimation;
+    private float cooldownThrowObjectAfterAnimation = 0.35f;
+
+    private void Awake()
+    {
+        this.player = GameObject.Find("Player");
+        this.penguinObject = this.player.transform.Find("Penguin").gameObject;
+        this.orientation = penguinObject.transform;
+        this.holdPoint = penguinObject.transform.Find("mixamorig:Hips").transform.Find("mixamorig:Spine")
+            .GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0);
+
+        Debug.Log(holdPoint);
+
+        this.animator = penguinObject.transform.GetComponent<Animator>();
+        this.controller = player.GetComponent<PlayerMovement>();
+    }
 
     void Start()
     {
-        this.controller = player.GetComponent<PlayerMovement>();
+        this.cameras = GameObject.Find("Cameras").transform;
+        Debug.Log(cameras);
+        this.regularCamera = cameras.transform.Find("PlayerCam").gameObject;
+        this.aimCamera = cameras.transform.Find("AimCamera").gameObject;
     }
 
     void Update()
