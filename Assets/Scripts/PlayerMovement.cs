@@ -8,29 +8,29 @@ using UnityEngine.XR;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
-    public float groundDrag;
-    public float acceleration;
-    public float deceleration;
-    public float jumpForce;
-    public float jumpCooldown;
-    public float airMultiplier;
+    public float moveSpeed = 60f;
+    public float groundDrag = 17.5f;
+    public float acceleration = 5f;
+    public float deceleration = 4f;
+    public float jumpForce = 5f;
+    public float jumpCooldown = 0.25f;
+    public float airMultiplier = 0.4f;
 
-    [HideInInspector] public float walkSpeed;
-    [HideInInspector] public float sprintSpeed;
-    [SerializeField] private float counterMovementForce;
-    [SerializeField] private Transform groundCheckPoint;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Transform player;
-    [SerializeField] private GameObject penguinHolder;
-    [SerializeField] private GameObject normalCollider;
-    [SerializeField] private GameObject slideCollider;
+    [HideInInspector] private float walkSpeed;
+    [HideInInspector] private float sprintSpeed;
+    private float counterMovementForce = 17.5f;
+    private Transform groundCheckPoint;
+    public LayerMask groundLayer;
+    private Transform player;
+    private GameObject penguinHolder;
+    private GameObject normalCollider;
+    private GameObject slideCollider;
     private Animator animator;
     private Throw throwController;
 
     [Header("Ground")]
-    public float groundCheckDistance;
-    public float countdownGetUp;
+    private float groundCheckDistance = 0.6f;
+    private float countdownGetUp = 1f;
     public bool playerGetUp = true;
 
     [Header("Keybinds")]
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     public float playerHeight;
-    bool grounded;
+    public bool grounded;
 
     public Transform orientation;
 
@@ -56,11 +56,24 @@ public class PlayerMovement : MonoBehaviour
 
     public bool playerPlayingMinigame = false;
 
-    private void Start()
+    private void Awake()
     {
+        //groundLayer = LayerMask.NameToLayer("Ground");
+
+        player = GameObject.Find("Player").transform;
+        penguinHolder = player.Find("Penguin").gameObject;
         rb = GetComponent<Rigidbody>();
+        groundCheckPoint = penguinHolder.transform.Find("GroundCheckPoint");
+        normalCollider = penguinHolder.transform.Find("NormalCollider").gameObject;
+        slideCollider = penguinHolder.transform.Find("SlideCollider").gameObject;
+
         this.animator = penguinHolder.GetComponent<Animator>();
         this.throwController = penguinHolder.GetComponent<Throw>();
+    }
+
+    private void Start()
+    {
+  
     }
 
     private void Update()
@@ -128,13 +141,15 @@ public class PlayerMovement : MonoBehaviour
         this.groundDrag = 17.5f;
 
         normalCollider.SetActive(true);
-        slideCollider.SetActive(false);
+        slideCollider.GetComponent<CapsuleCollider>().enabled = false;
     }
 
     private void CheckPlayerOnGround()
     {
         // Cast a ray downwards from the player's position
         RaycastHit hit;
+
+
         if (Physics.Raycast(groundCheckPoint.position, -groundCheckPoint.up, out hit, groundCheckDistance, groundLayer))
         {
             // Ray hit a ground or floor object
@@ -165,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         this.orientation.rotation.SetLookRotation(moveDirection);
 
         normalCollider.SetActive(false);
-        slideCollider.SetActive(true);
+        slideCollider.GetComponent<CapsuleCollider>().enabled = true;
 
         StartCoroutine(StartCountdown());
     }
